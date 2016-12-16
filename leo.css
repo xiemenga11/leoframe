@@ -21,8 +21,8 @@ html,body{
 }
 hr{
 	border-top:1px solid #fff;
-	border-left:1px solid #fff;
-	border-right:1px solid #ddd;
+	border-left:none;
+	border-right:none;
 	border-bottom:1px solid #ddd;
 }
 /*---------------------layout--------------------*/
