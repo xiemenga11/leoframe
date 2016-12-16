@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jquery 的诞生和原理</title>
+	<style>
+	.changeBox{
+		width:500px;
+		height:300px;
+		background-color:red;
+		color:white;
+		font-size:50px;
+		font-weight:bold;
+		line-height: 300px;
+		text-align: center;
+	}
+	</style>
+</head>
+<body>
+	<button id="btn">改变</button>
+	<div id="changeBox" class="changeBox">我要改变</div>
+	<div id="changeBox2" class="changeBox">我要改变2</div>
+	<div id="random">0</div>
+<script src="leo.js"></script>
+<script>
+	var random=l("#random")[0];
+	var per;
+	var timer=setInterval(function(){
+		random.innerHTML=per=Math.random()*100;
+	},10);
+	setTimeout(function(){
+		clearInterval(timer);
+	},3000)
+	var a=3;
+	var b=a;
+	a=5;
+</script>
+</body>
+</html>
