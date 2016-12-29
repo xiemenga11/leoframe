@@ -5,6 +5,7 @@
 	text-decoration: none;
 	outline: none;
 	list-style: none;
+	color:#323232;
 	box-sizing:border-box;
 	-webkit-box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -225,6 +226,45 @@ hr{
 .col-span-12,.col-full{
 	width:100%;	
 }
+.cur-move{
+	cursor:move;
+}
+.cur-pointer{
+	cursor:pointer;
+}
+.cur-cross{
+	cursor:crosshair;
+}
+.cur-wait{
+	cursor:wait;
+}
+.cur-help{
+	cursor:help;
+}
+.cur-e-resize{
+	cursor:e-resize;
+}
+.cur-w-resize{
+	cursor:w-resize;
+}
+.cur-n-resize{
+	cursor:n-resize;
+}
+.cur-s-resize{
+	cursor:s-resize;
+}
+.cur-ne-resize{
+	cursor:ne-resize;
+}
+.cur-nw-resize{
+	cursor:nw-resize;
+}
+.cur-se-resize{
+	cursor:se-resize;
+}
+.cur-sw-resize{
+	cursor:sw-resize;
+}
 /*---------------------- D ----------------------*/
 .dir-l2r{
 	flex-direction:row;
@@ -277,6 +317,13 @@ hr{
 }
 .mar-right,.mar-lr{
 	margin-right:10px;
+}
+/*---------------------- N ----------------------*/
+.no-select{
+	-webkit-user-select:none ;
+	-moz-user-select:none ;
+	-ms-user-select:none ;
+	user-select:none ;
 }
 /*---------------------- P ----------------------*/
 .pad{

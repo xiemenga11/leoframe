@@ -5,10 +5,52 @@
 		this.extend = {
 			each:function(callback){
 					for(var i = 0; i < this.length; i++){
-						callback.call(this[i],i);
+						callback.call(l(this[i]),i);
+					}
+				},
+			html:function(text){
+				if(text){
+					this.innerHTML = text;
+					return this;
+				}else{
+					return this.innerHTML;
+				}
+			},
+			css:function(css){
+				if(typeof css === "string"){
+					
+					return this.currentStyle?this.currentStyle[css]:window.getComputedStyle(this,false)[css];
+					
+				}else{
+					for(var i in css){
+						this.style[i] = css[i];
+					}
+					return this;
+				}
+			},
+			drag:function(){
+				this.onmousedown = function(e){
+					this.style.position = "fixed";
+					this.style.cursor = "move";
+					this.style.zIndex +=2;
+					var e = e || event;
+					var sx = e.clientX,
+						sy = e.clientY,
+						dx = this.offsetLeft,
+						dy = this.offsetTop,
+						This = this;
+					document.onmousemove = function(e){
+						var e = e || event;
+						This.style.left = dx + e.clientX - sx + "px";
+						This.style.top = dy + e.clientY - sy + "px";
 					}
 				}
-		};
+				this.onmouseup = function(){
+					document.onmousemove = null;
+				}
+				return this;
+			}
+		}
 
 
 		if(typeof obj ==="string"){
@@ -47,9 +89,14 @@
 			this.dom = obj;
 		}
 
-		for(var i in this.extend){
-			this.dom[i] = this.extend[i];
+		if(this.dom.length == 1){
+			this.dom =  this.dom[0];
 		}
+
+		//继承extend上写的方法
+		this.ex();
+		
+
 		return this.dom;
 	}
 	_l.prototype = {
@@ -159,17 +206,30 @@
 			}
 			return str.join(",");
 		},
-		extends:function(obj){
-			for(var i in obj){
-				this.extend[i] = obj[i];
+		ex:function(){
+			for(var i in this.extend){
+				this.dom[i] = this.extend[i];
 			}
 		}
 	}
 
-	
-	function l(obj){
+	//selector的工厂函数
+	var l = function (obj){
 		var obj = obj || document;
-		return new _l(obj);
+
+		obj = new _l(obj);
+
+		for(var i in l.extend){
+			obj[i] = l.extend[i];
+		}
+
+		return obj;
+	}
+	l.extend = {};
+	l.extends = function(obj){
+		for(var i in obj){
+			l.extend[i] = obj[i];
+		}
 	}
 	window.l = l;
 }(window))
