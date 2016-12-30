@@ -1,8 +1,33 @@
+/**
+ * leo.js
+ * @author  leoxie
+ * @mail    xiemenga11@126.com
+ * @version 1.0.0
+ */
 (function(w){
-	//new   selector
-	function _l(obj){
-		this.parent = document;
+	function _l(obj,parent){
+		this.parent = parent || document;
 		this.extend = {
+			click:function(callback){
+				this.onclick = callback;
+				return this;
+			},
+			hover:function(callback){
+				this.onmouseover = callback;
+				return this;
+			},
+			out:function(callback){
+				this.onmouseout = callback;
+				return this;
+			},
+			val:function(value){
+				if(value || value == 0){
+					this.value = value;
+					return this;
+				}else{
+					return this.value;
+				}
+			},
 			each:function(callback){
 					for(var i = 0; i < this.length; i++){
 						callback.call(l(this[i]),i);
@@ -32,7 +57,7 @@
 				this.onmousedown = function(e){
 					this.style.position = "fixed";
 					this.style.cursor = "move";
-					this.style.zIndex +=2;
+					this.style.zIndex =999;
 					var e = e || event;
 					var sx = e.clientX,
 						sy = e.clientY,
@@ -49,6 +74,30 @@
 					document.onmousemove = null;
 				}
 				return this;
+			},
+			listen:function(event,callback){
+				if(this.addEventListener){
+					this.addEventListener(event,callback);
+				}else{
+					this.attachEvent("on"+event, callback);
+				}
+				return this;
+			},
+			getData:function(key){
+				return this.dataset[key];
+			},
+			attr:function(attr){
+				if(typeof attr === "string"){
+					return this[attr];
+				}else{
+					for(var i in attr){
+						this[i]=attr[i]
+					}
+					return this;
+				}
+			},
+			offset:function(attr){
+				return this["offset"+attr];
 			}
 		}
 
@@ -214,10 +263,11 @@
 	}
 
 	//selector的工厂函数
-	var l = function (obj){
-		var obj = obj || document;
+	var l = function (obj,parent){
+		var obj = obj || document,
+			parent = parent ? parent : false;
 
-		obj = new _l(obj);
+		obj = new _l(obj,parent);
 
 		for(var i in l.extend){
 			obj[i] = l.extend[i];
@@ -231,5 +281,43 @@
 			l.extend[i] = obj[i];
 		}
 	}
+	l.author = "leoxie";
+	l.version = "1.0.0";
+	l.mail = "xiemenga11@126.com";
+	l.isString = function(data){
+		return (typeof data === "string");
+	}
+	l.isObject = function(data){
+		return ((data instanceof Object) && !(data instanceof Array));
+	}
+	l.isArray = function(data){
+		return ((data instanceof Object) && (data instanceof Array));
+	}
+	l.isFunction = function(data){
+		return (typeof data === "function");
+	}
+	l.isDom = function(data){
+		return ((typeof data === "object") && (data instanceof Object) && ("tagName" in data))
+	}
+	l.isNumber = function(data){
+		return (typeof data === "number");
+	}
+	l.isBool = function(data){
+		return (typeof data === "boolean");
+	}
+	l.getType = function(data){
+		return (typeof data);
+	}
 	window.l = l;
+	//原型方法
+	String.prototype.alt = function(){
+		alert(this);
+		return this;
+	}
+	String.prototype.log = function(){
+		console.log(this);
+		return this;
+	}
+	Number.prototype.alt = String.prototype.alt;
+	Number.prototype.log = String.prototype.log;
 }(window))

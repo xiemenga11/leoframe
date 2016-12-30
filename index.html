@@ -8,35 +8,77 @@
 </head>
 <body>
 <div id="xie" data-app="leo" data-mod="我是旅65654港">
-	<h1 style="color:red;" class="no-select">{{$xiedsafsadf}}</h1>
+	<h1 style="color:red;" data-name="456321" class="no-select">{{$xiedsafsadf}}</h1>
 </div>
 <div data-app="xie" data-mod="hahahaah">
 	{{$leo}}
 </div>
-	<div class="leo-ui-diag-box">
-		<div class="title">系统提示</div>
-		<div class="content">asdfadsf</div>
-		<div class="btn-box">
-			<button class="bg-blue">确定</button>
-			<button class="bg-red">取消</button>
-			<input type="button" value="虫豸">
-		</div>
-	</div>
 
-	<div class="leo-ui-diag-box">
-		<div class="title">系统提示</div>
-		<div class="content">6465464</div>
-		<div class="btn-box">
-			<button class="bg-blue">确定</button>
-			<button class="bg-red">取消</button>
-		</div>
-	</div>
-
+<div class="leo">out</div>
+<div id="res">
+	<div class="leo">leox</div>
+	<div class="leo">leox</div>
+</div>
+<button id="open">
+	open
+</button>
+<a href="http://www.imooc.com" target="leoxie">mooc</a>
+<input type="button" value="close" id="cls">
 <script src="js/selector.js"></script>
 <script src="js/leomod.js"></script>
-<script src="js/leoui.js"></script>
+<!-- <script src="js/leoui.js"></script> -->
 <script>
+	var mywin;
+	l("#open").onclick = function(){
+		mywin = window.open("open.html","leo","width=200,height=200");
+		
+	}
+	l(".leo",l("#res")).each(function(){this.html("lllllll")});
+	l("#cls").onclick = function(){
+		window.open("","leo").close();
+	}
+	var str = "leo";
+	var obj = {
+		a:"leo",
+		b:"xie"
+	}
+	var dom = l("#res");
+	var doms = l(".leo");
+	var func = function(){}
+	function leo(){}
+	var arr = ['leo','xie']
+	var num = 4
+	var floa = 4.5
+	var boo = true;
+	// l.isObject(arr)
+	// alert(l.getType(boo))
 	
+	// alert(l.isBool(boo))
+	// l("h1").listen("click",function(){
+	// 	this.html().alt();
+	// }).css({color:"yellow"}).getData("name").alt();
+	// l("h1").onclick = function(){
+	// 	alert("onclick");
+	// }
+	l("h1").click( 
+		function(){
+			this.html().alt();
+		}
+	).hover(function(){
+		this.css({color:"blue"})
+	}).out(function(){
+		this.css({color:"red"})
+	})
+	l("a").attr({
+		title:"leoxie is awesome",
+		href:"http://www.baidu.com"
+	}).offset("Width").alt();
+	alert("leoxie".toUpperCase())
+	try{
+		allert("leoxie")
+	}catch(err){
+		alert(err)
+	}
 </script>
 </body>
 </html>

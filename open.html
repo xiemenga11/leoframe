@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>open html</title>
+</head>
+<body>
+	<input type="text" id="calcu">
+	<input type="button" value="close" id="cls">
+	<input type="button" value="calcu" id="btn">
+<script src="js/selector.js"></script>
+<script>
+	l("#btn").onclick = function(){
+		var res = (new Function("return "+l("#calcu").value))();
+		l("#res",window.opener.document).html(res);
+		// window.opener.document.getElementById("res").innerHTML = res;
+	}
+	l("#cls").onclick = function(){
+		close();
+	}
+</script>
+</body>
+</html>
