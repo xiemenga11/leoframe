@@ -98,6 +98,11 @@
 			},
 			offset:function(attr){
 				return this["offset"+attr];
+			},
+			addElement:function(tag){
+				var ele = l().createElement(tag);
+				this.appendChild(ele);
+				return l(ele);
 			}
 		}
 
