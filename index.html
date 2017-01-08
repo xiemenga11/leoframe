@@ -5,6 +5,16 @@
 	<title>leo js</title>
 	<link rel="stylesheet" href="css/leo.css">
 	<link rel="stylesheet" href="css/leoui.css">
+	<style>
+	#res{
+		width:500px;
+		height:300px;
+	}
+	.ll{
+		width:30px;
+		height:30px; class="ll"
+	}
+	</style>
 </head>
 <body>
 <div id="xie" data-app="leo" data-mod="我是旅65654港">
@@ -22,17 +32,24 @@
 <button id="open">
 	open
 </button>
+<img class="ll" src="img/1.jpg" alt="">
+<img class="ll" src="img/2.jpg" alt="">
+<img class="ll" src="img/3.jpeg" alt="">
+<img class="ll" src="img/4.jpg" alt="">
 <a href="http://www.imooc.com" target="leoxie">mooc</a>
 <input type="button" value="close" id="cls">
 <script src="js/selector.js"></script>
 <script src="js/leomod.js"></script>
+<script src="js/leo.imgview.js"></script>
 <!-- <script src="js/leoui.js"></script> -->
 <script>
+	l.imgview("img");
 	var mywin;
 	l("#open").onclick = function(){
 		mywin = window.open("open.html","leo","width=200,height=200");
 		
 	}
+	l("h1").drag();
 	l(".leo",l("#res")).each(function(){this.html("lllllll")});
 	l("#cls").onclick = function(){
 		window.open("","leo").close();
@@ -52,7 +69,7 @@
 	var boo = true;
 	// l.isObject(arr)
 	// alert(l.getType(boo))
-	
+	// l("#res").mask({inner:"leo"}).html("leoxiesdafdsaf")
 	// alert(l.isBool(boo))
 	// l("h1").listen("click",function(){
 	// 	this.html().alt();
@@ -60,25 +77,6 @@
 	// l("h1").onclick = function(){
 	// 	alert("onclick");
 	// }
-	l("h1").click( 
-		function(){
-			this.html().alt();
-		}
-	).hover(function(){
-		this.css({color:"blue"})
-	}).out(function(){
-		this.css({color:"red"})
-	})
-	l("a").attr({
-		title:"leoxie is awesome",
-		href:"http://www.baidu.com"
-	}).offset("Width").alt();
-	alert("leoxie".toUpperCase())
-	try{
-		allert("leoxie")
-	}catch(err){
-		alert(err)
-	}
 </script>
 </body>
 </html>

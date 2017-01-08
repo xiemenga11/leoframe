@@ -55,9 +55,11 @@
 			},
 			drag:function(){
 				this.onmousedown = function(e){
-					this.style.position = "fixed";
-					this.style.cursor = "move";
-					this.style.zIndex =999;
+					this.css({
+						position:"fixed",
+						cursor:"move",
+						zIndex:999
+					})
 					var e = e || event;
 					var sx = e.clientX,
 						sy = e.clientY,
@@ -70,9 +72,9 @@
 						This.style.top = dy + e.clientY - sy + "px";
 					}
 				}
-				this.onmouseup = function(){
+				this.listen("mouseup",function(){
 					document.onmousemove = null;
-				}
+				})
 				return this;
 			},
 			listen:function(event,callback){
@@ -97,12 +99,61 @@
 				}
 			},
 			offset:function(attr){
-				return this["offset"+attr];
+				return this["offset"+attr.firstUpper()];
 			},
 			addElement:function(tag){
-				var ele = l().createElement(tag);
-				this.appendChild(ele);
+				var ele = "";
+				if(l.isString(tag)){
+					ele = l().createElement(tag);
+				}else{
+					ele = tag;
+				}
+				if(l.isArray(ele)){
+					for(var i = 0; i < ele.length; i++){
+						this.appendChild(ele[i]);
+					}
+				}else{
+					this.appendChild(ele);
+				}
+				ele.parent = this;
 				return l(ele);
+			},
+			/**
+			 * 遮罩层
+			 * @param  {obj} data 遮罩层配置
+			 * @return {dom}      [description]
+			 */
+			mask:function(data){
+				var H = this.offset("height"),
+					W = this.offset("width"),
+					L = this.offset("left"),
+					T = this.offset("top"),
+				    child = this.addElement("div")
+					.css({
+						backgroundColor:"rgba(0,0,0,0.3)",
+						color:"white",
+						height:H + "px",
+						width:W + "px",
+						position:"fixed",
+						top:T + "px",
+						left:L + "px",
+						textAlign:"center",
+						lineHeight:H + "px"
+					})
+					if(data.css){
+						child.css(data.css);
+					}
+					if(data.event){
+						for(var i in data.event){
+							child.listen(i,data.event[i]);
+						}
+					}
+					if(l.isString(data.inner)){
+						child.html(data.inner);
+					}else{
+						child.addElement(data.inner);
+					}
+					return l(child);
 			}
 		}
 
@@ -313,6 +364,28 @@
 	l.getType = function(data){
 		return (typeof data);
 	}
+	l.url = function(url){
+			if(url){
+				window.location.href=url;
+			}else{
+				return window.location.href;
+			}
+		}
+	//防止事件冒泡，在之前要获得var e = e || event
+	l.noBubble = function(e){
+		if(e.stopPropagation){
+			e.stopPropagation();
+		}else{
+			e.cancelBubble = true;
+		}
+	}
+	//窗口宽高
+	l.wid = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	l.hei = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	//屏幕宽高
+	l.screenHei = screen.availHeight;
+	l.screenWid = screen.availWidth;
+
 	window.l = l;
 	//原型方法
 	String.prototype.alt = function(){
@@ -323,6 +396,20 @@
 		console.log(this);
 		return this;
 	}
+	String.prototype.inArr = function(obj){
+		for(var i in obj){
+			if(this == obj[i]){
+				return true;
+			}
+		}
+		return false;
+	}
+	//首字母大写
+	String.prototype.firstUpper = function(){
+		return this.replace(this[0],this[0].toUpperCase());
+	}
+	Boolean.prototype.alt = String.prototype.alt;
 	Number.prototype.alt = String.prototype.alt;
 	Number.prototype.log = String.prototype.log;
+	Number.prototype.inArr = String.prototype.inArr;
 }(window))
