@@ -373,11 +373,27 @@
 		}
 	//防止事件冒泡，在之前要获得var e = e || event
 	l.noBubble = function(e){
-		if(e.stopPropagation){
-			e.stopPropagation();
+		// if(e.stopPropagation){
+		// 	e.stopPropagation();
+		// }else{
+		// 	e.cancelBubble = true;
+		// }
+		window.event? window.event.cancelBubble = true : e.stopPropagation();
+	}
+	// 将字符串转换为JSON对象
+	/*
+	str: string 要转换的字符串
+	return : 转换后得到的对象
+	*/
+	l.strToJson = function (str){
+		if(window.JSON){
+			return JSON.parse(str);
 		}else{
-			e.cancelBubble = true;
+			return (new Function("return"+str))()
 		}
+	}
+	l.load = function(callback){
+		l(window).listen("load",callback);
 	}
 	//窗口宽高
 	l.wid = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -404,12 +420,54 @@
 		}
 		return false;
 	}
+	String.prototype.inKey = function(obj){
+		return (this in obj);
+	}
 	//首字母大写
 	String.prototype.firstUpper = function(){
 		return this.replace(this[0],this[0].toUpperCase());
+	}
+	String.prototype.toJson = function(){
+		return l.strToJson(this);
+	}
+	// 删除字符串的空白字符
+	String.prototype.trim=function(){
+		var reg=/\s/g;
+		return this.replace(reg,"");
+	}
+	//将字符串转换为int
+	String.prototype.toInt=function(){
+		return parseInt(this);
+	}
+	//将字符串转换为float
+	String.prototype.toFloat=function(){
+		return parseFloat(this);
 	}
 	Boolean.prototype.alt = String.prototype.alt;
 	Number.prototype.alt = String.prototype.alt;
 	Number.prototype.log = String.prototype.log;
 	Number.prototype.inArr = String.prototype.inArr;
+	// 将float转换到四舍五入到指定位数
+	Number.prototype.fixed=function(point){
+		var point=point||1;
+		return this.toFixed(point)*1;
+	}
+	// 将boolean和number转换为string
+	Boolean.prototype.toStr=Number.prototype.toStr=function(){
+		return String(this);
+	}
+	Array.prototype.each = function(callback){
+		var len = this.length;
+		for(var i = 0; i < len; i++){
+			callback.call(this[i],i);
+		}
+	}
+	Object.prototype.each = function(callback){
+		for(var i in this){
+			if(i == "each"){
+				continue;
+			}
+			callback.call(this[i],i);
+		}
+	}
 }(window))

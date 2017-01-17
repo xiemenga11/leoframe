@@ -171,9 +171,12 @@
 
 //-----------version 1.8--------------
 var l=function(selector,context){
-	return new l.fn.init(selector,context);
+	l.fn.init.prototype = new l.fn.init(selector,context);
+	for(var i in l.fn){
+		l.fn.init.prototype[i] = l.fn[i];
+	}
 }
-l.fn=l.prototype;
+// l.fn=l.prototype;
 l.fn={
 	init:function(selector,context){
 		var context=context||document;
@@ -196,6 +199,9 @@ l.fn={
 	},
 	listen:function(type,callback){
 		this[0].addEventListener(type,callback)
+	},
+	html:function(){
+		return this[0].innerHTML;
 	}
 }
 l.fn.extend=function(data){
@@ -204,15 +210,37 @@ l.fn.extend=function(data){
 	}
 }
 l.fn.init.prototype=l.fn;
-l("#changeBox").hide();
-l().extend({
-	show:function(){
-		this.each(function(i){
-			this.style.display="block";
-		})
-	}
-})
-l("#changeBox").show();
+// // l("#changeBox").hide();
+// l().extend({
+// 	show:function(){
+// 		this.each(function(i){
+// 			this.style.display="block";
+// 		})
+// 	}
+// })
+// l("#changeBox").show();
 l("#btn").listen("click",function(){
-	alert(this.innerHTML)
+	alert(l("#btn").innerHTML)
 })
+
+function classA(name){
+	this.name = name;
+	this.sayHello = function(){
+		alert(this.name);
+	}
+}
+function classB(name,sex){
+	// this.newMethod = classA;
+	// this.newMethod(name);
+	// delete this.newMethod;
+	classA.call(this,name);
+	this.sex = sex;
+	this.config = function(){
+		alert(this.name+":"+this.sex);
+	}
+}
+var leo = new classB("leo","male")
+leo.sayHello();
+leo.config();
+
+"leo".show();

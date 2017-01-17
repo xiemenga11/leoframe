@@ -1,10 +1,12 @@
 l.imgview = function(imgs){
 	var index = 0,
-		imgList = [];
+		imgList = [],
+		imgs = imgs || "img";
 	l(imgs).each(function(i){
 		imgList[i] = this.src;
 		this.index = i;
 		this.listen("click",function(){
+			l("body").css({overflow:"hidden"});
 			index = this.index; 
 			var css = {
 					   		backgroundColor:"rgba(0,0,0,0.5)",
@@ -21,6 +23,7 @@ l.imgview = function(imgs){
 					inner:"",
 					event:{
 						click:function(){
+							this.parent.css({overflow:"scroll"})
 							this.parent.removeChild(this)
 						}
 					}
@@ -38,7 +41,7 @@ l.imgview = function(imgs){
 					   .css({left:0})
 					   .html("<")
 					   .listen("click",function(e){
-					   		var e = e || event;
+					   		// var e = e || event;
 					   		l.noBubble(e);
 					   		if(index > 0){
 					   			index--;
@@ -50,7 +53,7 @@ l.imgview = function(imgs){
 					   .css({right:0})
 					   .html(">")
 					   .listen("click",function(e){
-					   		var e = e || event;
+					   		// var e = e || event;
 					   		l.noBubble(e);//阻止冒泡
 					   		if(index < imgList.length-1){
 					   			index++;

@@ -51,10 +51,10 @@
 	// 	}
 	// }
 	function _C(obj){
-		this.obj=document.getElementById(obj);
-		this.height=this.obj.height;
-		this.width=this.obj.width;
-		this.can = this.obj.getContext("2d");
+		this.obj    = document.getElementById(obj);
+		this.height = this.obj.height;
+		this.width  = this.obj.width;
+		this.can    = this.obj.getContext("2d");
 		return this;
 	}
 	_C.prototype = {
@@ -79,12 +79,12 @@
 		config:function(config){
 			for(var i in config){
 				for(var j in config[i]){
-					this.can[styleName[i][j]]=config[i][j];
+					this.can[styleName[i][j]] = config[i][j];
 				}
 			}
-			if(config.shadow&&config.shadow.position){
-				this.can.shadowOffsetX=config.shadow.position[0];
-				this.can.shadowOffsetY=config.shadow.position[1];
+			if(config.shadow && config.shadow.position){
+				this.can.shadowOffsetX = config.shadow.position[0];
+				this.can.shadowOffsetY = config.shadow.position[1];
 			}
 			return this;
 		},
@@ -103,12 +103,12 @@
 		control:[int,int] 控制杆坐标（可选，默认[0,0]）
 		*/
 		bezierTo:function(x,y,control){
-			var control=control||[x,y];
+			var control = control || [x,y];
 			this.can.quadraticCurveTo(control[0],control[1],x,y);
 			return this;
 		},
 		bezier2To:function(x,y,control){
-			var control=control||[[x,y],[x,y]];
+			var control = control || [[x,y],[x,y]];
 			this.can.bezierCurveTo(control[0][0],control[0][1],control[1][0],control[1][1],x,y);
 			return this;
 		},
@@ -135,9 +135,9 @@
 		}
 		*/
 		arc:function(config){
-			var s=config.start||0;
-			var e=config.end||2;
-			var d=config.desc||false;
+			var s = config.start || 0;
+			var e = config.end || 2;
+			var d = config.desc || false;
 			this.can.arc(config.center[0],config.center[1],config.r,s*Math.PI,e*Math.PI,d);
 			return this;
 		},
