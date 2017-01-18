@@ -23,17 +23,11 @@
 	<div id="random">0</div>
 <script src="leo.js"></script>
 <script>
-	var random=l("#random")[0];
-	var per;
-	var timer=setInterval(function(){
-		random.innerHTML=per=Math.random()*100;
-	},10);
-	setTimeout(function(){
-		clearInterval(timer);
-	},3000)
-	var a=3;
-	var b=a;
-	a=5;
+	// $("#changeBox").html();
+	var x = $("#changeBox");
+	for(var i in x){
+		document.write(i+":"+x[i])
+	}
 </script>
 </body>
 </html>

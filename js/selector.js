@@ -5,159 +5,14 @@
  * @version 1.0.0
  */
 (function(w){
-	function _l(obj,parent){
+	var l = function (obj,parent){
+		var obj = obj || document,
+			parent = parent ? parent : false;
+
+		return new l.init(obj,parent);
+	}
+	l.init = function (obj,parent){
 		this.parent = parent || document;
-		this.extend = {
-			click:function(callback){
-				this.onclick = callback;
-				return this;
-			},
-			hover:function(callback){
-				this.onmouseover = callback;
-				return this;
-			},
-			out:function(callback){
-				this.onmouseout = callback;
-				return this;
-			},
-			val:function(value){
-				if(value || value == 0){
-					this.value = value;
-					return this;
-				}else{
-					return this.value;
-				}
-			},
-			each:function(callback){
-					for(var i = 0; i < this.length; i++){
-						callback.call(l(this[i]),i);
-					}
-				},
-			html:function(text){
-				if(text){
-					this.innerHTML = text;
-					return this;
-				}else{
-					return this.innerHTML;
-				}
-			},
-			css:function(css){
-				if(typeof css === "string"){
-					
-					return this.currentStyle?this.currentStyle[css]:window.getComputedStyle(this,false)[css];
-					
-				}else{
-					for(var i in css){
-						this.style[i] = css[i];
-					}
-					return this;
-				}
-			},
-			drag:function(){
-				this.onmousedown = function(e){
-					this.css({
-						position:"fixed",
-						cursor:"move",
-						zIndex:999
-					})
-					var e = e || event;
-					var sx = e.clientX,
-						sy = e.clientY,
-						dx = this.offsetLeft,
-						dy = this.offsetTop,
-						This = this;
-					document.onmousemove = function(e){
-						var e = e || event;
-						This.style.left = dx + e.clientX - sx + "px";
-						This.style.top = dy + e.clientY - sy + "px";
-					}
-				}
-				this.listen("mouseup",function(){
-					document.onmousemove = null;
-				})
-				return this;
-			},
-			listen:function(event,callback){
-				if(this.addEventListener){
-					this.addEventListener(event,callback);
-				}else{
-					this.attachEvent("on"+event, callback);
-				}
-				return this;
-			},
-			getData:function(key){
-				return this.dataset[key];
-			},
-			attr:function(attr){
-				if(typeof attr === "string"){
-					return this[attr];
-				}else{
-					for(var i in attr){
-						this[i]=attr[i]
-					}
-					return this;
-				}
-			},
-			offset:function(attr){
-				return this["offset"+attr.firstUpper()];
-			},
-			addElement:function(tag){
-				var ele = "";
-				if(l.isString(tag)){
-					ele = l().createElement(tag);
-				}else{
-					ele = tag;
-				}
-				if(l.isArray(ele)){
-					for(var i = 0; i < ele.length; i++){
-						this.appendChild(ele[i]);
-					}
-				}else{
-					this.appendChild(ele);
-				}
-				ele.parent = this;
-				return l(ele);
-			},
-			/**
-			 * 遮罩层
-			 * @param  {obj} data 遮罩层配置
-			 * @return {dom}      [description]
-			 */
-			mask:function(data){
-				var H = this.offset("height"),
-					W = this.offset("width"),
-					L = this.offset("left"),
-					T = this.offset("top"),
-				    child = this.addElement("div")
-					.css({
-						backgroundColor:"rgba(0,0,0,0.3)",
-						color:"white",
-						height:H + "px",
-						width:W + "px",
-						position:"fixed",
-						top:T + "px",
-						left:L + "px",
-						textAlign:"center",
-						lineHeight:H + "px"
-					})
-					if(data.css){
-						child.css(data.css);
-					}
-					if(data.event){
-						for(var i in data.event){
-							child.listen(i,data.event[i]);
-						}
-					}
-					if(l.isString(data.inner)){
-						child.html(data.inner);
-					}else{
-						child.addElement(data.inner);
-					}
-					return l(child);
-			}
-		}
-
-
 		if(typeof obj ==="string"){
 			this.objStrArr = obj.match(this.regs.objs);
 			for(var i = 0 ; i < this.objStrArr.length ; i++){
@@ -197,14 +52,9 @@
 		if(this.dom.length == 1){
 			this.dom =  this.dom[0];
 		}
-
-		//继承extend上写的方法
-		this.ex();
-		
-
-		return this.dom;
+		return this;
 	}
-	_l.prototype = {
+	l.fn = {
 		/**
 		 * 找到指定的DOM元素
 		 * @param  {string} obj    dom元素的string描述
@@ -311,35 +161,143 @@
 			}
 			return str.join(",");
 		},
-		ex:function(){
-			for(var i in this.extend){
-				this.dom[i] = this.extend[i];
+		click:function(callback){
+				this.dom.onclick = callback;
+				return this;
+			},
+		hover:function(callback){
+			this.dom.onmouseover = callback;
+			return this;
+		},
+		out:function(callback){
+			this.dom.onmouseout = callback;
+			return this;
+		},
+		val:function(value){
+			if(value || value == 0){
+				this.dom.value = value;
+				return this;
+			}else{
+				return this.dom.value;
 			}
+		},
+		html:function(text){
+			if(text){
+				this.dom.innerHTML = text;
+				return this;
+			}else{
+				return this.dom.innerHTML;
+			}
+		},
+		css:function(css){
+			if(typeof css === "string"){
+				
+				return this.dom.currentStyle?this.dom.currentStyle[css]:window.getComputedStyle(this.dom,false)[css];
+				
+			}else{
+				for(var i in css){
+					this.dom.style[i] = css[i];
+				}
+				return this;
+			}
+		},
+		listen:function(event,callback){
+			if(this.dom.addEventListener){
+				this.dom.addEventListener(event,callback);
+			}else{
+				this.dom.attachEvent("on"+event, callback);
+			}
+			return this;
+		},
+		getData:function(key){
+			return this.dom.dataset[key];
+		},
+		attr:function(attr){
+			if(typeof attr === "string"){
+				return this.dom[attr];
+			}else{
+				for(var i in attr){
+					this.dom[i]=attr[i]
+				}
+				return this;
+			}
+		},
+		offset:function(attr){
+			return this.dom["offset"+attr.firstUpper()];
+		},
+		each:function(callback){
+			for(var i = 0; i < this.dom.length; i++){
+				callback.call(this.dom[i],i);
+			}
+		},
+		addElement:function(tag){
+			var ele = "";
+			if(l.isString(tag)){
+				ele = l().dom.createElement(tag);
+			}else{
+				ele = tag;
+			}
+			if(l.isArray(ele)||ele.length){
+				for(var i = 0; i < ele.length; i++){
+					this.dom.appendChild(ele[i]);
+				}
+			}else{
+				this.dom.appendChild(ele);
+			}
+			ele.parent = this.dom;
+			return l(ele);
+		},
+		/**
+		 * 遮罩层
+		 * @param  {obj} data 遮罩层配置
+		 * @return {dom}      [description]
+		 */
+		mask:function(data){
+			var H = this.offset("height"),
+				W = this.offset("width"),
+				L = this.offset("left"),
+				T = this.offset("top"),
+			    child = this.addElement("div")
+				.css({
+					backgroundColor:"rgba(0,0,0,0.3)",
+					color:"white",
+					height:H + "px",
+					width:W + "px",
+					position:"fixed",
+					top:T + "px",
+					left:L + "px",
+					textAlign:"center",
+					lineHeight:H + "px"
+				})
+				if(data.css){
+					child.css(data.css);
+				}
+				if(data.event){
+					for(var i in data.event){
+						child.listen(i,data.event[i]);
+					}
+				}
+				if(l.isString(data.inner)){
+					child.html(data.inner);
+				}else{
+					child.addElement(data.inner);
+				}
+				return child;
+		}
+
+	}
+	l.fn.extend = function(data){
+		for(var i in data){
+			l.fn[i] = data[i];
 		}
 	}
-
+	l.init.prototype = l.fn
 	//selector的工厂函数
-	var l = function (obj,parent){
-		var obj = obj || document,
-			parent = parent ? parent : false;
-
-		obj = new _l(obj,parent);
-
-		for(var i in l.extend){
-			obj[i] = l.extend[i];
-		}
-
-		return obj;
-	}
-	l.extend = {};
-	l.extends = function(obj){
-		for(var i in obj){
-			l.extend[i] = obj[i];
-		}
-	}
+	
 	l.author = "leoxie";
 	l.version = "1.0.0";
 	l.mail = "xiemenga11@126.com";
+
 	l.isString = function(data){
 		return (typeof data === "string");
 	}
@@ -371,8 +329,9 @@
 				return window.location.href;
 			}
 		}
-	//防止事件冒泡，在之前要获得var e = e || event
+	//防止事件冒泡
 	l.noBubble = function(e){
+		//在之前要获得var e = e || event
 		// if(e.stopPropagation){
 		// 	e.stopPropagation();
 		// }else{
@@ -471,3 +430,37 @@
 		}
 	}
 }(window))
+
+
+
+
+
+// this.extend = {
+			
+			
+// 			drag:function(){
+// 				this.onmousedown = function(e){
+// 					this.css({
+// 						position:"fixed",
+// 						cursor:"move",
+// 						zIndex:999
+// 					})
+// 					var e = e || event;
+// 					var sx = e.clientX,
+// 						sy = e.clientY,
+// 						dx = this.offsetLeft,
+// 						dy = this.offsetTop,
+// 						This = this;
+// 					document.onmousemove = function(e){
+// 						var e = e || event;
+// 						This.style.left = dx + e.clientX - sx + "px";
+// 						This.style.top = dy + e.clientY - sy + "px";
+// 					}
+// 				}
+// 				this.dom.listen("mouseup",function(){
+// 					document.onmousemove = null;
+// 				})
+// 				return this;
+// 			}
+			
+// 		}
