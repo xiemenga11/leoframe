@@ -54,6 +54,7 @@
 		}
 		return this;
 	}
+	l.fn = l.prototype
 	l.fn = {
 		/**
 		 * 找到指定的DOM元素
@@ -209,6 +210,14 @@
 			}
 			return this;
 		},
+		notListen:function(event,callback){
+			if(this.dom.removeEventListener){
+				this.dom.removeEventListener(event,callback);
+			}else{
+				this.dom.detachEvent("on"+event, callback);
+			}
+			return this;
+		},
 		getData:function(key){
 			return this.dom.dataset[key];
 		},
@@ -283,6 +292,35 @@
 					child.addElement(data.inner);
 				}
 				return child;
+		},
+		swipe:function (direction,callback){
+			var sx,sy,ex,ey,status;
+			this.listen("mousedown",function(e){
+				var e  = e || event ;
+				status = false;
+				sx     = e.clientX ;
+				sy     = e.clientY ;
+				l(this).listen("mousemove",move)
+			})
+			this.listen("mouseup",function(e){
+				l(this).notListen("mousemove",move)
+				if(status && status == direction){
+					callback.call(this)
+				}
+			})
+			function move(e){
+				var ev = e || event;
+				ex     = sx-ev.clientX
+				ey     = sy-ev.clientY
+				if(Math.abs(ex) > 100 || Math.abs(ey) > 100){
+					if(Math.abs(ex) > Math.abs(ey)){
+						status = ex < 0 ? "right" : "left" ;
+					}else{
+						status = ey < 0 ? "down" : "up" ;
+					}
+				}
+			}
+			return this;
 		}
 
 	}
@@ -353,6 +391,12 @@
 	}
 	l.load = function(callback){
 		l(window).listen("load",callback);
+	}
+	l.getScrollTop = function(){
+		return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+	}
+	l.exe = function(str){
+		return (new Function(str))()
 	}
 	//窗口宽高
 	l.wid = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
