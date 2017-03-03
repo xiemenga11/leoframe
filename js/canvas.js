@@ -88,6 +88,12 @@
 			}
 			return this;
 		},
+		setFillColor:function(color){
+			this.can.fillStyle = color
+		},
+		setStrokeColor:function(color){
+			this.can.strokeStyle = color
+		},
 		moveTo:function(x,y){
 			this.can.moveTo(x,y);
 			return this;
@@ -247,6 +253,13 @@
 		*/
 		clear:function(config){
 			this.can.clearRect(config.start[0],config.start[1],config.size[0],config.size[1]);
+			return this;
+		},
+		clearAll:function(){
+			this.clear({
+				start:[0,0],
+				size:[this.width,this.height]
+			})
 			return this;
 		},
 		/*

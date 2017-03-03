@@ -1,0 +1,15 @@
+#leoFocus{
+	width:500px;
+	height:300px;
+	/*overflow: hidden;*/
+	border:1px solid red;
+	margin:0 auto;
+}
+.imgBox{
+	height:100%;
+}
+#leoFocus .imgBox img{
+	width:100%;
+	height:100%;
+	float: left;
+}
