@@ -210,7 +210,7 @@
 			}
 			return this;
 		},
-		notListen:function(event,callback){
+		unListen:function(event,callback){
 			if(this.dom.removeEventListener){
 				this.dom.removeEventListener(event,callback);
 			}else{
@@ -254,7 +254,13 @@
 				this.dom.appendChild(ele);
 			}
 			ele.parent = this.dom;
-			return l(ele);
+			return ele;
+		},
+		insertElement:function(ele,i){
+			var i = i || 0;
+			alert(i)
+			this.dom.inserBefore(ele,this.dom.childNodes[i])
+			return this
 		},
 		/**
 		 * 遮罩层
@@ -321,7 +327,38 @@
 				}
 			}
 			return this;
-		}
+		},
+		/*
+		移除元素
+		obj:domobject 是移除的子元素
+		如果传了obj则移除当前元素的子元素obj,如果不传则移除当前元素自身
+		
+		<--BUG-->不能移除自身
+		*/
+		// remove:function(obj){
+		// 	if(obj){
+		// 		this.dom.removeChild(obj);
+		// 		return this;
+		// 	}else{
+		// 		this.dom.parentNode.removeChild(this.obj);
+		// 	}
+		// }
+		
+		/*
+		克隆元素
+		deep:bool||string  true克隆元素和它的内容,false只克隆元素不克隆内容；不传则默认为false||如果传入string，则克隆元素并将内容替换为deep
+		return:克隆后的元素
+		*/
+		clone:function(deep){
+			if(typeof deep==="string"){
+				var o=this.dom.cloneNode(deep);
+				l(o).html(deep);
+				return o;
+			}else{
+				return this.dom.cloneNode(deep);
+			}
+		} 
+		
 
 	}
 	l.fn.extend = function(data){
@@ -397,6 +434,25 @@
 	}
 	l.exe = function(str){
 		return (new Function(str))()
+	}
+	l.ajax = function(config){
+		var xml,
+			data = config.data ? config.data : null;
+		if(window.XMLHttpRequest){
+			xml = new XMLHttpRequest()
+		}else{
+			xml = new ActiveXObject("Microsoft.XMLHTTP")
+		}
+		xml.onreadystatechange = function(){
+			if(xml.readyState == 4 && xml.status == 200){
+				config.callback.call(xml.responseText)
+			}
+		}
+		if(config.method.toLowerCase()=="post"){
+			xml.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		}
+		xml.open(config.method,config.url,true)
+		xml.send(data)
 	}
 	//窗口宽高
 	l.wid = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

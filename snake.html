@@ -23,15 +23,17 @@
 <script src = 'js/canvas.js'></script>
 <script>
 var mycan = C('mycan')
-var CY = 0
+var CY = 0,
+	l  = 50
 var mainLoop = setInterval(function(){
 	CY += 0.1
+	l > 0 ? l -= 0.3 : l = 0
 	mycan
 	.clearAll()
 	.save()
 	.begin()
 	.moveTo(400,250)
-	.bezierTo(500,250,[450,Math.cos(CY)*300])
+	.bezierTo(500,250,[450,250+Math.cos(CY)*l])
 	.stroke()
 	.close()
 	.init()

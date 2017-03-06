@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+		font-family: 'Consolas';
+		padding:0;
+		margin:0;	
+		box-sizing:border-box;
+	}
+	#myFocus{
+		width:1000px;
+		height:500px;
+		position:relative;
+		margin:0 auto;
+		overflow: hidden;
+	}
+	#picBox{
+		width:6000px;
+		height:100%;
+		position: absolute;
+		top:0;
+		left:-1000px;
+	}
+	.pic{
+		float:left;
+	}
+	.pic,
+	.pic img{
+		width:1000px;
+		height:100%;
+	}
+	.pic .captions{
+		position: absolute;
+		margin:20px 40px;
+		z-index: 2;
+	}
+	.pic .captions h2,
+	.pic .captions h4{
+		text-align: right;
+		color:white;
+	}
+	.pic .captions h2{
+		font-size:30px;
+	}
+	.pic .captions h4{
+		font-size:50px;
+	}
+	#ctrBox{
+		/*width:100%;*/
+		height:20px;
+		/*background-color: red;*/
+		position: absolute;
+		right:30px;
+		bottom:20px;
+		white-space:nowrap;
+	}
+	#ctrBox .ctr,
+	#ctrBox .ctr-active{
+		display: inline-block;
+		background-color: rgba(0,0,0,0.5);
+		width:20px;
+		height:20px;
+		border-radius: 10px;
+		border:1px solid #666;
+		margin-left: 10px;
+		-webkit-transition:all 0.2s;
+		-moz-transition:all 0.2s;
+		-ms-transition:all 0.2s;
+		-o-transition:all 0.2s;
+		transition:all 0.2s;
+	}
+	#ctrBox .ctr:hover{
+		background-color: rgba(0,0,0,0.8);
+		border:2px solid #999;
+	}
+	#ctrBox .ctr-active{
+		background-color: orange;
+		border:2px solid #eee;
+	}
+	.arrow{
+		width:0;
+		height:0;
+		position: absolute;
+		z-index: 10;
+		top:50%;
+	}
+	#myFocus .arrow{
+		opacity: 0;
+		-webkit-transition:all 0.3s;
+		-moz-transition:all 0.3s;
+		-ms-transition:all 0.3s;
+		-o-transition:all 0.3s;
+		transition:all 0.3s;
+	}
+	#myFocus:hover .arrow{
+		opacity: 1;
+	}
+	#arrowL{
+		border-left:20px solid rgba(0,0,0,0);
+		border-right:20px solid rgba(255,255,255,0.4);
+		border-top:20px solid rgba(0,0,0,0);
+		border-bottom:20px solid rgba(0,0,0,0);
+		left:0;
+	}
+	#arrowL:hover{
+		border-right:30px solid rgba(255,255,255,0.8);
+	}
+	#arrowR{
+		border-right:20px solid rgba(0,0,0,0);
+		border-left:20px solid rgba(255,255,255,0.4);
+		border-top:20px solid rgba(0,0,0,0);
+		border-bottom:20px solid rgba(0,0,0,0);
+		right:0;
+	}
+	#arrowR:hover{
+		border-left:30px solid rgba(255,255,255,0.8);
+	}
+	</style>
+</head>
+<body>
+	<div id="myFocus">
+		<div id="picBox">
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 4</h2>
+					<h4>h4 caption</h4>
+				</div>
+				<img src="img/4.jpg" alt="">
+			</div>
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 1</h2>
+					<h4>hello</h4>
+				</div>
+				<img src="img/1.jpg" alt="">
+			</div>
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 2</h2>
+					<h4>world</h4>
+				</div>
+				<img src="img/2.jpg" alt="">
+			</div>
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 3</h2>
+					<h4>h4 caption</h4>
+				</div>
+				<img src="img/3.jpg" alt="">
+			</div>
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 4</h2>
+					<h4>I'm leo xie</h4>
+				</div>
+				<img src="img/4.jpg" alt="">
+			</div>
+			<div class='pic'>
+				<div class="captions">
+					<h2>pic 1</h2>
+					<h4>h4 caption</h4>
+				</div>
+				<img src="img/1.jpg" alt="">
+			</div>
+		</div>
+		<div id="ctrBox">
+			<a href="javascript:;" class="ctr-active"></a>
+			<a href="javascript:;" class="ctr"></a>
+			<a href="javascript:;" class="ctr"></a>
+			<a href="javascript:;" class="ctr"></a>
+		</div>
+		<div id="arrowL" class="arrow"></div>
+		<div id="arrowR" class="arrow"></div>
+	</div>
+<div id="test">lexie</div>
+<script src="js/selector.js"></script>
+<script src="js/leo.focus.js"></script>
+<script>
+	// var dom = l().addElement('div')
+	var dom = l("#test").addElement('div')
+	l(dom).html("asldkflasdkf")
+	l("#test").insertElement(dom)
+</script>
+</body>
+</html>
